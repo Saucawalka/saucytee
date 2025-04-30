@@ -1,0 +1,50 @@
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import Product from "./Product";
+import { Outlet, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+const Landingpage = () => {
+  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+
+  return loading ? (
+    <div className="flex items-center justify-center h-screen text-white bg-transparent">
+      <div className="flex flex-col items-center space-y-4">
+        <svg className="animate-spin h-10 w-10 text-indigo-500" viewBox="0 0 24 24">
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+            fill="none"
+          />
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8v8H4z"
+          />
+        </svg>
+        <p className="text-sm text-indigo-400">Loading...</p>
+      </div>
+    </div>
+  ) : (
+    <>
+      <Navbar />
+      <Outlet />
+      <Product/>
+     
+     <Footer />
+    </>
+  );
+};
+
+export default Landingpage;
