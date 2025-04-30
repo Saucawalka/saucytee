@@ -28,7 +28,7 @@ const Cart = () => {
       const user = storedUser ? JSON.parse(storedUser) : null;
       if (!user) return;
 
-      const response = await axios.get("http://localhost:3000/api/cart/", {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/cart/`, {
         params: { userId: user._id },
       });
 
@@ -48,7 +48,7 @@ const Cart = () => {
 
   const updateQuantity = async (id: string, quantity: number) => {
     try {
-      await axios.put(`http://localhost:3000/api/cart/${id}`, { quantity });
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/cart/${id}`, { quantity });
       fetchCart();
     } catch (err) {
       console.error("Failed to update quantity", err);
@@ -57,7 +57,7 @@ const Cart = () => {
 
   const removeItem = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:3000/api/cart/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/cart/${id}`);
       fetchCart();
     } catch (err) {
       console.error("Failed to remove item", err);

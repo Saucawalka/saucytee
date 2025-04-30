@@ -12,7 +12,7 @@ import Accountmanagement from './components/Accountmanagement';
 import Checkout from './components/Checkout';
 import Ordersuccesspage from './components/Ordersuccespage';
 import Addressbook from './components/Addressbook';
-import PaymentPage from './components/PaymentPage';
+// import PaymentPage from './components/PaymentPage';
 import AdminDashboard from './components/AdminDashboard';
 import ProductDetail from './components/Productdetailpage';
 
@@ -35,7 +35,7 @@ function App() {
         <Route path="/checkout" element={<Checkout/>}/>
         <Route path="/order-success" element={<Ordersuccesspage />} />
         <Route path="/address" element={<Addressbook />} />
-        <Route path="/pay" element={<PaymentPage />} />
+        {/* <Route path="/pay" element={<PaymentPage />} /> */}
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/product/:id" element={<ProductDetail />} />
 

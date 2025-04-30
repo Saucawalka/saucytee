@@ -45,7 +45,7 @@ const Signup = () => {
       password: '',
       confirmPassword: '',
       isAdmin: isAdminSignup,                     // hidden admin field
-      adminCode: isAdminSignup ? '04310112saucytee' : '', // hidden admin code
+      adminCode: isAdminSignup ? import.meta.env.adminlock: '', // hidden admin code
     },
     validationSchema: SignupSchema,
     onSubmit: async (values, { setSubmitting }) => {
@@ -59,7 +59,7 @@ const Signup = () => {
           payload.adminCode = prompt('Enter admin code:') || ''; // Ask user for the secret code
         }
     
-        const res = await fetch('http://localhost:3000/api/userInfo/signup', {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/userInfo/signup`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),

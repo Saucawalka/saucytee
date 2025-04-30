@@ -33,7 +33,7 @@ const AdminDashboard = () => {
   const fetchProducts = async () => {
     try {
       const token = getToken();
-      const res = await axios.get("http://localhost:3000/api/admin/products", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/products`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProducts(res.data);
@@ -45,7 +45,7 @@ const AdminDashboard = () => {
   const fetchOrders = async () => {
     try {
       const token = getToken();
-      const res = await axios.get("http://localhost:3000/api/admin/orders", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/orders`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setOrders(res.data);
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
   const deleteProduct = async (id: string) => {
     try {
       const token = getToken();
-      await axios.delete(`http://localhost:3000/api/admin/products/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/admin/products/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProducts((prev) => prev.filter((p) => p._id !== id));
@@ -70,7 +70,7 @@ const AdminDashboard = () => {
     const token = getToken();
     try {
       const res = await axios.put(
-        `http://localhost:3000/api/admin/orders/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/admin/orders/${id}`,
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -21,7 +21,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState<Product | null>(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/api/getproducts/${id}`)
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/getproducts/${id}`)
       .then(res => {
         setProduct(res.data);
       })

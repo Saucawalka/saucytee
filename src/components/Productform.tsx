@@ -18,7 +18,7 @@ const ProductForm = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/cate");
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/cate`);
         if (response.data.length > 0) {
           setCategoryList(response.data);
         } else {
@@ -63,7 +63,7 @@ const ProductForm = () => {
         formData.append("images", file);
       });
 
-      await axios.post("http://localhost:3000/api/product", formData, {
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/product`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

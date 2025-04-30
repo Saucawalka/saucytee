@@ -34,7 +34,7 @@ const AccountManagement = () => {
 
     const fetchUserData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/userInfo/user', {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/userInfo/user`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const AccountManagement = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/userInfo/user/update', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/userInfo/user/update`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -110,7 +110,7 @@ const AccountManagement = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/userInfo/user/change-password', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/userInfo/user/change-password`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -133,7 +133,7 @@ const AccountManagement = () => {
   const handleDeleteAccount = async () => {
     if (window.confirm('Are you sure you want to delete your account?')) {
       try {
-        const response = await fetch('http://localhost:3000/api/userInfo/user/delete', {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/userInfo/user/delete`, {
           method: 'DELETE',
         });
         if (!response.ok) throw new Error('Failed to delete account');

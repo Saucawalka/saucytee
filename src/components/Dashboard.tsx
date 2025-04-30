@@ -32,7 +32,7 @@ const Dashboard = () => {
         setUser(parsedUser);
 
         try {
-          const res = await axios.get(`http://localhost:3000/api/address/api/address/default`, {
+          const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/address/api/address/default`, {
             params: { userId: parsedUser._id },
           });
           setDefaultAddress(res.data);

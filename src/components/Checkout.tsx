@@ -101,10 +101,10 @@ const Checkout = () => {
 
       try {
         const [cartResponse, addressResponse] = await Promise.all([
-          axios.get("http://localhost:3000/api/cart", {
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/cart`, {
             params: { userId: user._id },
           }),
-          axios.get("http://localhost:3000/api/address", {
+          axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/address`, {
             params: { userId: user._id },
           }),
         ]);
@@ -149,10 +149,10 @@ const Checkout = () => {
     if (paymentMethod === "Cash on Delivery") {
       // Place order immediately for Cash on Delivery
       try {
-        const response = await axios.post("http://localhost:3000/api/orders", orderData);
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/orders`, orderData);
 
         if (response.status === 200 || response.status === 201) {
-          await axios.delete("http://localhost:3000/api/cart/clear", {
+          await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/cart/clear`, {
             params: { userId: user._id },
           });
 
@@ -183,7 +183,7 @@ const Checkout = () => {
       }
 
       const handler = paystackWindow.PaystackPop.setup({
-        key: "pk_live_e079acef13f82eca99017ba63a697d0d56a4e267", // Your public key
+        key: import.meta.env.VITE_PAYSTACK,// Your public key
         email: user.email,
         amount: total * 100, // Convert total to kobo (Paystack expects kobo)
         currency: "NGN",
@@ -192,7 +192,7 @@ const Checkout = () => {
           if (response && response.reference) {
             // Handle payment verification
             axios
-              .get(`http://localhost:3000/api/paystack/verify/${response.reference}`)
+              .get(`${import.meta.env.VITE_API_BASE_URL}/api/paystack/verify/${response.reference}`)
               .then((verifyResponse) => {
                 if (verifyResponse.data.status === "success") {
                   console.log("Payment verified successfully");

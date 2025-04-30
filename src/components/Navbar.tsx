@@ -53,7 +53,7 @@ const Navbar = () => {
     const fetchCart = async () => {
       if (!user) return;
       try {
-        const response = await axios.get("http://localhost:3000/api/cart/", {
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/cart/`, {
           params: { userId: user._id },
         });
         setCartItems(response.data?.items || []);
@@ -69,7 +69,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/cate");
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/cate`);
         setCategories(response.data); // Assuming response.data is an array of categories
       } catch (err) {
         console.error("Failed to fetch categories", err);

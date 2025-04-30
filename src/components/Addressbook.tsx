@@ -34,7 +34,7 @@ const AddressBook = () => {
   const fetchAddresses = async (userId: string) => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:3000/api/address", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/address`, {
         params: { userId },
       });
       setAddresses(res.data);
@@ -68,11 +68,11 @@ const AddressBook = () => {
     try {
       if (editingId) {
         // Update existing address
-        await axios.put(`http://localhost:3000/api/address/${editingId}`, payload);
+        await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/address/${editingId}`, payload);
         setEditingId(null);
       } else {
         // Add new address
-        await axios.post(`http://localhost:3000/api/address`, payload);
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/address`, payload);
       }
       setForm({ fullName: "", address: "", city: "", state: "", zip: "" });
       fetchAddresses(user._id);
@@ -96,7 +96,7 @@ const AddressBook = () => {
     if (!id || !user) return;
 
     try {
-      await axios.delete(`http://localhost:3000/api/address/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/address/${id}`);
       fetchAddresses(user._id);
     } catch (err) {
       console.error("Error deleting address:", err);
@@ -107,7 +107,7 @@ const AddressBook = () => {
     if (!user) return;
 
     try {
-      await axios.put(`http://localhost:3000/api/address/set-default`, {
+      await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/address/set-default`, {
         userId: user._id,
         addressId: id,
       });

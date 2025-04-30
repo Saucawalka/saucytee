@@ -29,7 +29,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/orders/user/${user._id}`, // Use user._id here
+          `${import.meta.env.VITE_API_BASE_URL}/api/orders/user/${user._id}`, // Use user._id here
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
