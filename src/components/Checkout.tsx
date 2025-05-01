@@ -192,7 +192,7 @@ const Checkout = () => {
           if (response && response.reference) {
             // Handle payment verification
             axios
-              .get(`${import.meta.env.VITE_API_BASE_URL}/api/paystack/verify/${response.reference}`)
+              .post(`${import.meta.env.VITE_API_BASE_URL}/api/verify/verify-payment${response.reference}`)
               .then((verifyResponse) => {
                 if (verifyResponse.data.status === "success") {
                   console.log("Payment verified successfully");
