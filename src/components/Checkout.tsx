@@ -183,7 +183,7 @@ const Checkout = () => {
       }
 
       const handler = paystackWindow.PaystackPop.setup({
-        key: import.meta.env.VITE_PAYSTACK,// Your public key
+        key: import.meta.env.PAYSTACK,// Your public key
         email: user.email,
         amount: total * 100, // Convert total to kobo (Paystack expects kobo)
         currency: "NGN",
