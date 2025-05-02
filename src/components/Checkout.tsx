@@ -183,7 +183,7 @@ const Checkout = () => {
       }
 
       const handler = paystackWindow.PaystackPop.setup({
-        key: import.meta.env.PAYSTACK,// Your public key
+        key: import.meta.env.VITE_PAYSTACK,// Your public key
         email: user.email,
         amount: total * 100, // Convert total to kobo (Paystack expects kobo)
         currency: "NGN",
@@ -192,7 +192,7 @@ const Checkout = () => {
           if (response && response.reference) {
             // Handle payment verification
             axios
-              .post(`${import.meta.env.VITE_API_BASE_URL}/api/verify/verify-payment${response.reference}`)
+              .post(`${import.meta.env.VITE_API_BASE_URL}/api/verify/verify-payment`,{reference: response.reference})
               .then((verifyResponse) => {
                 if (verifyResponse.data.status === "success") {
                   console.log("Payment verified successfully");
