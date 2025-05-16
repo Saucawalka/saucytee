@@ -42,7 +42,7 @@ const AdminHelpChat = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/chat/users`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/chat`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -60,7 +60,7 @@ const AdminHelpChat = () => {
 
     const fetchMessages = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/chat/${selectedUserId}`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/chat/${selectedUserId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
