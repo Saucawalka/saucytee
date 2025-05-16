@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const defaultCategories = ["Phones", "Gadgets", "Accessories"];
 
@@ -22,11 +24,11 @@ const ProductForm = () => {
         if (response.data.length > 0) {
           setCategoryList(response.data);
         } else {
-          setCategoryList(defaultCategories); // fallback if DB is empty
+          setCategoryList(defaultCategories);
         }
       } catch (err) {
-        console.warn("Using fallback categories due to fetch error",err);
-        setCategoryList(defaultCategories); // fallback on error
+        console.warn("Using fallback categories due to fetch error", err);
+        setCategoryList(defaultCategories);
       }
     };
 
@@ -67,18 +69,19 @@ const ProductForm = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      alert("Product added successfully!");
+      toast.success("Product added successfully!");
       setProduct({ name: "", price: "", description: "", category: "" });
       setImageFiles([]);
       setImagePreviews([]);
     } catch (err) {
       console.error("Error adding product", err);
-      alert("Failed to add product");
+      toast.error("Failed to add product");
     }
   };
 
   return (
     <div className="max-w-xl mx-auto p-6 bg-white shadow rounded mt-8">
+      <ToastContainer />
       <h2 className="text-xl font-semibold mb-4">Add a Product</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input

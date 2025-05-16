@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface User {
   name: string;
@@ -17,18 +19,14 @@ const AccountManagement = () => {
     newPassword: '',
     confirmPassword: '',
   });
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Centralized token retrieval function
   const getToken = () => localStorage.getItem('token');
 
-  // Fetch user data
   useEffect(() => {
     const token = getToken();
     if (!token) {
-      setError('Token not found');
+      toast.error('Token not found');
       return;
     }
 
@@ -46,26 +44,24 @@ const AccountManagement = () => {
         setUserData(data);
         setFormData({ ...formData, name: data.name, email: data.email });
       } catch (error) {
-        setError(error instanceof Error ? error.message : 'An error occurred');
+        toast.error(error instanceof Error ? error.message : 'An error occurred');
       }
     };
 
     fetchUserData();
   }, []);
 
-  // Handle form input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle form submission for updating account info
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
     if (!formData.name || !formData.email) {
-      setError('Name and email are required.');
+      toast.error('Name and email are required.');
       setLoading(false);
       return;
     }
@@ -83,28 +79,26 @@ const AccountManagement = () => {
       const data: User = await response.json();
       setUserData(data);
       setEditMode(false);
-      setSuccessMessage('Account updated successfully');
-      setError(null);
+      toast.success('Account updated successfully!');
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'An error occurred');
+      toast.error(error instanceof Error ? error.message : 'An error occurred');
     } finally {
       setLoading(false);
     }
   };
 
-  // Handle password change
   const handlePasswordChange = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
     if (formData.newPassword !== formData.confirmPassword) {
-      setError('Passwords do not match.');
+      toast.error('Passwords do not match.');
       setLoading(false);
       return;
     }
 
     if (!formData.currentPassword || !formData.newPassword) {
-      setError('Current and new password are required.');
+      toast.error('Current and new password are required.');
       setLoading(false);
       return;
     }
@@ -120,16 +114,14 @@ const AccountManagement = () => {
       });
       if (!response.ok) throw new Error('Failed to change password');
       setFormData({ ...formData, currentPassword: '', newPassword: '', confirmPassword: '' });
-      setSuccessMessage('Password updated successfully!');
-      setError(null);
+      toast.success('Password updated successfully!');
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'An error occurred');
+      toast.error(error instanceof Error ? error.message : 'An error occurred');
     } finally {
       setLoading(false);
     }
   };
 
-  // Handle account deletion
   const handleDeleteAccount = async () => {
     if (window.confirm('Are you sure you want to delete your account?')) {
       try {
@@ -137,21 +129,18 @@ const AccountManagement = () => {
           method: 'DELETE',
         });
         if (!response.ok) throw new Error('Failed to delete account');
-        alert('Account deleted successfully');
-        // Optionally, log out or redirect user
+        toast.success('Account deleted successfully');
+        // Optionally redirect or log out
       } catch (error) {
-        setError(error instanceof Error ? error.message : 'An error occurred');
+        toast.error(error instanceof Error ? error.message : 'An error occurred');
       }
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-6">
+      <ToastContainer />
       <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">Account Management</h1>
-
-      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-      {successMessage && <p className="text-green-500 text-center mb-4">{successMessage}</p>}
-      {loading && <p className="text-blue-500 text-center mb-4">Loading...</p>}
 
       {userData ? (
         <div className="space-y-8">

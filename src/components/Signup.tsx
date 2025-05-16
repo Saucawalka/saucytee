@@ -3,6 +3,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
 import img1 from '../assets/edit.png';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface SignupFormValues {
   name: string;
@@ -32,7 +34,6 @@ const Signup = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Check if URL has ?admin=true to auto-fill admin values
   const isAdminSignup = new URLSearchParams(location.search).get('admin') === 'true';
 
   const formik = useFormik<SignupFormValues>({
@@ -44,8 +45,8 @@ const Signup = () => {
       address: '',
       password: '',
       confirmPassword: '',
-      isAdmin: isAdminSignup,                     // hidden admin field
-      adminCode: isAdminSignup ? import.meta.env.adminlock: '', // hidden admin code
+      isAdmin: isAdminSignup,
+      adminCode: isAdminSignup ? import.meta.env.adminlock : '',
     },
     validationSchema: SignupSchema,
     onSubmit: async (values, { setSubmitting }) => {
@@ -54,37 +55,38 @@ const Signup = () => {
           ...values,
           isAdmin: isAdminSignup,
         };
-    
+
         if (isAdminSignup) {
-          payload.adminCode = prompt('Enter admin code:') || ''; // Ask user for the secret code
+          payload.adminCode = prompt('Enter admin code:') || '';
         }
-    
+
         const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/userInfo/signup`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
         });
-    
+
         const data = await res.json();
         console.log('Signup result:', data);
-    
+
         if (res.ok) {
+          toast.success('Signup successful');
           navigate('/signin');
         } else {
-          alert(data.message || 'Signup failed');
+          toast.error(data.message || 'Signup failed');
         }
       } catch (error) {
         console.error('Signup error:', error);
-        alert('An error occurred during signup');
+        toast.error('An error occurred during signup');
       } finally {
         setSubmitting(false);
       }
-    }
-    ,
+    },
   });
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <ToastContainer />
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img className="mx-auto h-10 w-auto" src={img1} alt="Your Company" />
         <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">Create your account</h2>

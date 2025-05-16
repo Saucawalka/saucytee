@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import img1 from '../assets/edit.png';
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
@@ -23,25 +25,21 @@ const Signin = () => {
       const data = await res.json();
 
       if (res.ok) {
-        // Save the token to localStorage, not user info
-        localStorage.setItem("token", data.token); // Assuming backend sends token in the response
-
-        // Optionally save user info (without password) for use in the app
+        localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
-
-        // Redirect to dashboard
         navigate('/');
       } else {
-        alert(data.message || 'Login failed');
+        toast.error(data.message || 'Login failed');
       }
     } catch (err) {
       console.error('Error logging in:', err);
-      alert('Something went wrong');
+      toast.error('Something went wrong');
     }
   };
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <ToastContainer />
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img className="mx-auto h-10 w-auto" src={img1} alt="Your Company" />
         <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">

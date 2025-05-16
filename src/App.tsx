@@ -15,6 +15,7 @@ import Addressbook from './components/Addressbook';
 // import PaymentPage from './components/PaymentPage';
 import AdminDashboard from './components/AdminDashboard';
 import ProductDetail from './components/Productdetailpage';
+import HelpChat from './components/HelpChat';
 
 function App() {
   return (
@@ -38,6 +39,8 @@ function App() {
         {/* <Route path="/pay" element={<PaymentPage />} /> */}
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/help" element={<HelpChat />} />
+
 
         
         <Route path='/' element={<Userauth/>}>

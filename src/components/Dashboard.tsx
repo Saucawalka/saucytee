@@ -107,7 +107,7 @@ const Dashboard = () => {
             {/* Store Credit */}
             <div className="bg-white shadow rounded-lg p-4">
               <h3 className="font-semibold text-gray-800 mb-2">Store Credit</h3>
-              <p className="text-sm text-blue-700 font-medium">💳 TechDrive store credit balance: ₦ 0</p>
+              <p className="text-sm text-blue-700 font-medium">💳 Saucytee store credit balance: ₦ 0</p>
             </div>
 
             {/* Newsletter Preferences */}
