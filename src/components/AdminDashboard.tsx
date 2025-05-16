@@ -7,7 +7,7 @@ interface Product {
   _id?: string;
   name: string;
   price: number;
-  image: string;
+  images: string[];
 }
 
 interface Order {
@@ -68,8 +68,8 @@ const AdminDashboard = () => {
   };
 
   const updateOrderStatus = async (id: string, status: string) => {
-    const token = getToken();
     try {
+      const token = getToken();
       const res = await axios.put(
         `${import.meta.env.VITE_API_BASE_URL}/api/admin/orders/${id}`,
         { status },
@@ -104,15 +104,13 @@ const AdminDashboard = () => {
         <div>
           <h2 className="text-2xl font-semibold mb-4">All Products</h2>
 
-          <div className="mb-6">
+          <div className="mb-6 flex gap-4">
             <Link to="/productform">
               <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
                 + Add New Product
               </button>
             </Link>
-          </div>
 
-          <div className="mb-6">
             <Link to="/adminhelp">
               <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
                 Chat
@@ -123,7 +121,12 @@ const AdminDashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((product) => (
               <div key={product._id} className="border p-4 rounded shadow bg-white">
-                <img src={product.image} alt={product.name} className="h-40 object-cover w-full mb-4" />
+                <img
+                  src={product.images?.[0]}
+                  alt={product.name}
+                  className="h-40 object-cover w-full mb-4"
+                  onError={(e) => (e.currentTarget.src = "/fallback.jpg")}
+                />
                 <h3 className="text-lg font-semibold">{product.name}</h3>
                 <p>₦{product.price}</p>
                 <div className="flex justify-between mt-2 text-sm">
@@ -190,6 +193,7 @@ const AdminDashboard = () => {
           </div>
         </div>
       )}
+
       <AdminHelpChatWidget />
     </div>
   );
