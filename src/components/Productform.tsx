@@ -3,17 +3,26 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const defaultCategories = ["Phones", "Gadgets", "Accessories"];
+type Category = {
+  _id: string;
+  name: string;
+};
+
+const defaultCategories: Category[] = [
+  { _id: "1", name: "Phones" },
+  { _id: "2", name: "Gadgets" },
+  { _id: "3", name: "Accessories" },
+];
 
 const ProductForm = () => {
   const [product, setProduct] = useState({
     name: "",
     price: "",
     description: "",
-    category: "",
+    category: "", // will hold category _id
   });
 
-  const [categoryList, setCategoryList] = useState<string[]>([]);
+  const [categoryList, setCategoryList] = useState<Category[]>([]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
@@ -117,9 +126,9 @@ const ProductForm = () => {
           required
         >
           <option value="">Select Category</option>
-          {categoryList.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
+          {categoryList.map((category) => (
+            <option key={category._id} value={category._id}>
+              {category.name}
             </option>
           ))}
         </select>
