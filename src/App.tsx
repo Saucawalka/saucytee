@@ -16,6 +16,7 @@ import Addressbook from './components/Addressbook';
 import AdminDashboard from './components/AdminDashboard';
 import ProductDetail from './components/Productdetailpage';
 import HelpChat from './components/HelpChat';
+import AdminHelpChat from './components/AdminHelpChat';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/help" element={<HelpChat />} />
+        <Route path="adminchat" element={<AdminHelpChat/>} />
 
 
         

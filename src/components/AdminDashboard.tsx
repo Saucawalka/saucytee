@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import AdminHelpChatWidget from './AdminHelpChatWidget';
 
 interface Product {
   _id?: string;
@@ -111,6 +112,14 @@ const AdminDashboard = () => {
             </Link>
           </div>
 
+          <div className="mb-6">
+            <Link to="/adminhelp">
+              <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                Chat
+              </button>
+            </Link>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((product) => (
               <div key={product._id} className="border p-4 rounded shadow bg-white">
@@ -181,6 +190,7 @@ const AdminDashboard = () => {
           </div>
         </div>
       )}
+      <AdminHelpChatWidget />
     </div>
   );
 };
