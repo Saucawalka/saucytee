@@ -7,4 +7,5 @@ const socket = io(import.meta.env.VITE_API_BASE_URL, {
       token: token,   // send your token here
     }
   });// make sure this matches your server origin
-module.exports = socket;
+  export default socket;
+
