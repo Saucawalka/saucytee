@@ -175,14 +175,16 @@ const Navbar = () => {
               )}
             </div>
 
-            <Link to="/cart" className="relative flex items-center gap-1 hover:text-indigo-600">
-              <FaShoppingCart />
-              {cartItems.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {totalQuantity}
-                </span>
-              )}
-            </Link>
+            <Link to="/cart" className="relative inline-block text-xl hover:text-indigo-600">
+  <FaShoppingCart />
+
+  {cartItems.length > 0 && (
+    <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-[10px] leading-none font-semibold rounded-full w-4 h-4 flex items-center justify-center">
+      {totalQuantity}
+    </span>
+  )}
+</Link>
+
           </div>
         </div>
       </div>
