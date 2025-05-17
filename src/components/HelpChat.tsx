@@ -27,7 +27,7 @@ const HelpChat = () => {
     // Fetch existing chat messages from the server
     const fetchMessages = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/chat/${userId}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/chat/admin/chat/${userId}`);
         setMessages(res.data);
       } catch (err) {
         console.error('Failed to load messages:', err);
