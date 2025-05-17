@@ -122,10 +122,11 @@ const AdminDashboard = () => {
             {products.map((product) => (
               <div key={product._id} className="border p-4 rounded shadow bg-white">
                 <img
-                  src={`data:image/jpeg;base64,${product.images[0]}`}
-                  alt={product.name}
-                  className="h-40 object-cover w-full mb-4"
-                  onError={(e) => (e.currentTarget.src = "/fallback.jpg")}
+                  src={
+    product.images[0]?.startsWith("data:image/")
+      ? product.images[0]
+      : `data:image/jpeg;base64,${product.images[0]}`
+  }
                 />
                 <h3 className="text-lg font-semibold">{product.name}</h3>
                 <p>₦{product.price}</p>
