@@ -24,25 +24,35 @@ const AdminHelpChat = () => {
   const [input, setInput] = useState('');
   const chatEndRef = useRef<HTMLDivElement>(null);
 
+  // Emit admin_join once on component mount
   useEffect(() => {
-    socket.emit('admin_join'); // Join as admin
-
-    // Receive real-time user message
-    socket.on('new_user_message', (msg: Message) => {
-      if (msg.userId === selectedUserId) {
-        setMessages((prev) => [...prev, msg]);
-      }
-    });
+    socket.emit('admin_join');
 
     return () => {
       socket.off('new_user_message');
     };
+  }, []);
+
+  // Listen for new user messages and update messages only if user matches selectedUserId
+  useEffect(() => {
+    const handleNewUserMessage = (msg: Message) => {
+      if (msg.userId === selectedUserId) {
+        setMessages((prev) => [...prev, msg]);
+      }
+    };
+
+    socket.on('new_user_message', handleNewUserMessage);
+
+    return () => {
+      socket.off('new_user_message', handleNewUserMessage);
+    };
   }, [selectedUserId]);
 
+  // Fetch users for sidebar
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/chat`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/chat/admin/chat/users`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -55,12 +65,16 @@ const AdminHelpChat = () => {
     fetchUsers();
   }, []);
 
+  // Fetch messages for selected user
   useEffect(() => {
-    if (!selectedUserId) return;
+    if (!selectedUserId) {
+      setMessages([]);
+      return;
+    }
 
     const fetchMessages = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/chat/${selectedUserId}`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/chat/admin/chat/${selectedUserId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -73,6 +87,7 @@ const AdminHelpChat = () => {
     fetchMessages();
   }, [selectedUserId]);
 
+  // Scroll chat to bottom when messages change
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -100,7 +115,7 @@ const AdminHelpChat = () => {
 
       setMessages((prev) => [...prev, savedMessage]);
 
-      socket.emit('support_reply', savedMessage); // Send real-time message to user
+      socket.emit('support_reply', savedMessage); // Emit reply via socket
 
       setInput('');
     } catch (err) {
@@ -154,7 +169,9 @@ const AdminHelpChat = () => {
             placeholder="Type your reply..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter') sendReply(); }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') sendReply();
+            }}
             disabled={!selectedUserId}
           />
           <button
@@ -167,7 +184,6 @@ const AdminHelpChat = () => {
         </div>
       </div>
       <AdminHelpChatWidget />
-
     </div>
   );
 };
