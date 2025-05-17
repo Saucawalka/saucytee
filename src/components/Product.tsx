@@ -56,17 +56,17 @@ const ProductList = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6 md:p-8">
+    <div className=" product-list-container p-4 sm:p-6 md:p-8">
       <ToastContainer position="top-right" autoClose={3000} />
       <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">Product List</h1>
       
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {products.map((product) => (
-          <div key={product._id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
+          <div key={product._id} className=" product-card border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
             <img
               src={product.images && product.images.length > 0 ? `data:image/jpeg;base64,${product.images[0]}` : "/placeholder.jpg"}
               alt={product.name}
-              className="h-48 w-full object-cover"
+              className=" product-image h-48 w-full object-cover"
             />
             <div className="p-4">
               <h2 className="text-lg font-semibold">{product.name}</h2>

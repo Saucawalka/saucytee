@@ -49,7 +49,7 @@ const ProductDetail = () => {
   if (!product) return <p className="p-6">Loading product...</p>;
 
   return (
-    <div className="p-4 sm:p-6 max-w-4xl mx-auto bg-white shadow rounded">
+    <div className=" product-deatail-container p-4 sm:p-6 max-w-4xl mx-auto bg-white shadow rounded">
       <ToastContainer />
 
       <button
@@ -69,7 +69,7 @@ const ProductDetail = () => {
               key={idx}
               src={`data:image/jpeg;base64,${img}`}
               alt={`Product ${idx + 1}`}
-              className="w-full h-40 object-cover rounded border"
+              className=" product-image w-full h-40 object-cover rounded border"
             />
           ))}
         </div>
