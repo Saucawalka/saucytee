@@ -158,8 +158,9 @@ const AdminDashboard = () => {
                   <div>
                     <p className="text-sm text-gray-500">Order ID: {order._id}</p>
                     <p className="text-sm text-gray-500">
-                      Buyer: {order.userId?.name} ({order.userId?.email})
-                    </p>
+  Buyer: {order.userId?.name ? `${order.userId.name} (${order.userId.email})` : "Unknown"}
+</p>
+
                     <p className="text-sm text-gray-500">
                       Date: {new Date(order.createdAt).toLocaleDateString()}
                     </p>
@@ -178,13 +179,20 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="divide-y text-sm">
-                  {order.items.map((item, idx) => (
-                    <div key={idx} className="py-2 flex justify-between">
-                      <span>{item.name} × {item.quantity}</span>
-                      <span>₦{item.price * item.quantity}</span>
-                    </div>
-                  ))}
-                </div>
+  {order.items.map((item, idx) => {
+    const price = Number(item.price);
+    const quantity = Number(item.quantity);
+    const total = !isNaN(price) && !isNaN(quantity) ? price * quantity : 0;
+
+    return (
+      <div key={idx} className="py-2 flex justify-between">
+        <span>{item.name || "Unnamed Item"} × {quantity || 0}</span>
+        <span>₦{total}</span>
+      </div>
+    );
+  })}
+</div>
+
 
                 <div className="mt-2 text-right font-semibold">
                   Total: ₦{order.totalPrice}
